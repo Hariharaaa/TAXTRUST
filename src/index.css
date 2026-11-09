@@ -1,0 +1,222 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-canvas: #F4F4F2;
+  --color-ink: #0E0F0E;
+  --color-forest: #1C4640;
+  --color-lime: #D6F26E;
+
+  --font-display: "Inter Tight", "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+/* ── Base reset ────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* ── Hero: black into deep green into the page ─────── */
+.hero-backdrop {
+  background: linear-gradient(180deg, #050606 0%, #0D1311 28%, #233A33 52%, #6F8A80 70%, #C9D3CE 84%, var(--color-canvas) 100%);
+}
+
+/* Grid tiles that fade out as the hero lightens. */
+.grid-tiles {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+  background-size: 92px 92px;
+  mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.6) 45%, transparent 75%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,0.6) 45%, transparent 75%);
+}
+
+/* The same tiles, for dark-green panels. */
+.grid-tiles-flat {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 92px 92px;
+}
+
+/* Frosted card in the hero, standing in for the video's held card. */
+.glass-card {
+  background: linear-gradient(135deg, rgba(233,236,228,0.96) 0%, rgba(214,226,208,0.94) 55%, rgba(229,244,190,0.95) 100%);
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+/* ── Floating card ambient animation ───────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(-6deg); }
+  50% { transform: translateY(-12px) rotate(-4deg); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* ── Scrollbar styling ─────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-canvas);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.18);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.3);
+}
+
+/* ── Scrollbar hide utility ───────────────────────── */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Number input: hide spinners ───────────────────── */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* ── Cap warning entrance ─────────────────────────── */
+@keyframes cap-warning-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.cap-warning-enter {
+  animation: cap-warning-in 0.25s ease-out;
+}
+
+/* ── Sticky strip glass effect ────────────────────── */
+@supports (backdrop-filter: blur(16px)) {
+  .sticky-strip-glass {
+    backdrop-filter: blur(16px) saturate(1.8);
+    -webkit-backdrop-filter: blur(16px) saturate(1.8);
+  }
+}
+
+/* ── Keyboard focus ────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #1C4640;
+  outline-offset: 2px;
+}
+
+/* ── Figures line up in columns ────────────────────── */
+.figures {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Print: the statement on plain paper ───────────── */
+.print-only {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block;
+  }
+
+  .statement-paper {
+    background: #fff !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+  }
+
+  .statement-paper tr {
+    break-inside: avoid;
+  }
+
+  main {
+    padding: 0 !important;
+    min-height: 0 !important;
+  }
+}
+
+/* ── Reduced motion ────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-float {
+    animation: none !important;
+  }
+}
